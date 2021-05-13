@@ -1,13 +1,8 @@
 package me.carda.awesome_notifications.notifications.models.returnedData;
 
-import java.util.HashMap;
 import java.util.Map;
 
-import me.carda.awesome_notifications.AwesomeNotificationsPlugin;
-import me.carda.awesome_notifications.Definitions;
-import me.carda.awesome_notifications.notifications.models.Model;
 import me.carda.awesome_notifications.notifications.models.NotificationContentModel;
-import me.carda.awesome_notifications.notifications.models.PushNotification;
 
 // Just created because of Json process
 public class NotificationReceived extends NotificationContentModel {
@@ -26,7 +21,7 @@ public class NotificationReceived extends NotificationContentModel {
         this.summary = contentModel.summary;
         this.showWhen = contentModel.showWhen;
         this.actionButtons = contentModel.actionButtons;
-        this.messages = contentModel.messages;
+        this.recipient = contentModel.recipient;
         this.payload = contentModel.payload;
         this.largeIcon = contentModel.largeIcon;
         this.bigPicture = contentModel.bigPicture;

@@ -20,10 +20,8 @@ import com.github.arturogutierrez.BadgesNotSupportedException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.Person;
 import androidx.core.app.RemoteInput;
@@ -43,6 +41,7 @@ import me.carda.awesome_notifications.notifications.managers.DefaultsManager;
 import me.carda.awesome_notifications.notifications.models.NotificationButtonModel;
 import me.carda.awesome_notifications.notifications.models.NotificationChannelModel;
 import me.carda.awesome_notifications.notifications.models.NotificationContentModel;
+import me.carda.awesome_notifications.notifications.models.NotificationMessageModel;
 import me.carda.awesome_notifications.notifications.models.PushNotification;
 import me.carda.awesome_notifications.notifications.models.returnedData.ActionReceived;
 import me.carda.awesome_notifications.utils.BitmapUtils;
@@ -586,7 +585,8 @@ public class NotificationBuilder {
                 break;
 
             case Messaging:
-                if (setMessagingLayout(context, pushNotification.content, builder)) return;
+                if (setMessagingLayout(context, pushNotification.content, pushNotification.messages, builder))
+                    return;
                 break;
 
             case MediaPlayer:
@@ -701,29 +701,48 @@ public class NotificationBuilder {
         return true;
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-    private Boolean setMessagingLayout(Context context, NotificationContentModel contentModel, NotificationCompat.Builder builder) {
-        Person.Builder personBuilder = new Person.Builder();
-        Person person = personBuilder
-                .setName(contentModel.title)
-                .setIcon(IconCompat.createWithBitmap(Objects.requireNonNull(BitmapUtils.getBitmapFromSource(context, contentModel.icon)))).build();
+    private Boolean setMessagingLayout(Context context, NotificationContentModel contentModel, List<NotificationMessageModel> messages, NotificationCompat.Builder builder) {
+        if (contentModel.recipient.isEmpty()) return false;
 
-        NotificationCompat.MessagingStyle messagingStyle = new NotificationCompat.MessagingStyle(person);
+        // extract icon from string
+        Bitmap bitmap = BitmapUtils.getBitmapFromSource(context, contentModel.icon);
+        if (bitmap == null) return false;
 
-        if (StringUtils.isNullOrEmpty(contentModel.body)) return false;
+        // create notification title and icon
+        Person recipient = new Person.Builder()
+                .setName(contentModel.recipient)
+                .setIcon(IconCompat.createWithBitmap(bitmap))
+                .build();
 
-        List<String> lines = new ArrayList<>(Arrays.asList(contentModel.body.split("\\r?\\n")));
-
-        if (ListUtils.isNullOrEmpty(lines)) return false;
+        // set notification title and icon on style
+        NotificationCompat.MessagingStyle messagingStyle = new NotificationCompat.MessagingStyle(recipient);
 
         if (!StringUtils.isNullOrEmpty(contentModel.title)) {
             CharSequence contentTitle = HtmlUtils.fromHtml(contentModel.title);
             messagingStyle.setConversationTitle(contentTitle);
         }
 
-        if (contentModel.summary != null) {
-            CharSequence summaryText = HtmlUtils.fromHtml(contentModel.summary);
-            messagingStyle.addMessage(new NotificationCompat.MessagingStyle.Message(summaryText, System.currentTimeMillis(), person));
+        // get current time
+        long currentTime = System.currentTimeMillis();
+
+        // iterate through messages
+        for (NotificationMessageModel message : messages) {
+            Person.Builder personBuilder = new Person.Builder();
+
+            // get message icon
+            Bitmap personBitmap = BitmapUtils.getBitmapFromSource(context, message.icon);
+            if (personBitmap == null) return false;
+
+            // set message name and icon
+            Person person = personBuilder
+                    .setName(message.name)
+                    .setIcon(IconCompat.createWithBitmap(personBitmap)).build();
+
+            if (message.body != null) {
+                // add message to notification
+                CharSequence bodyText = HtmlUtils.fromHtml(message.body);
+                messagingStyle.addMessage(new NotificationCompat.MessagingStyle.Message(bodyText, currentTime, person));
+            }
         }
 
         builder.setStyle(messagingStyle);

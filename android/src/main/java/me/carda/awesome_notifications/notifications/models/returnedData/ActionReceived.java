@@ -1,17 +1,10 @@
 package me.carda.awesome_notifications.notifications.models.returnedData;
 
-import java.util.List;
 import java.util.Map;
 
 import me.carda.awesome_notifications.Definitions;
-import me.carda.awesome_notifications.notifications.enumeratos.NotificationLayout;
 import me.carda.awesome_notifications.notifications.enumeratos.NotificationLifeCycle;
-import me.carda.awesome_notifications.notifications.enumeratos.NotificationPrivacy;
-import me.carda.awesome_notifications.notifications.enumeratos.NotificationSource;
-import me.carda.awesome_notifications.notifications.models.Model;
 import me.carda.awesome_notifications.notifications.models.NotificationContentModel;
-import me.carda.awesome_notifications.notifications.models.PushNotification;
-import me.carda.awesome_notifications.utils.DateUtils;
 import me.carda.awesome_notifications.utils.MapUtils;
 
 public class ActionReceived extends NotificationContentModel {
@@ -37,7 +30,7 @@ public class ActionReceived extends NotificationContentModel {
         this.summary = contentModel.summary;
         this.showWhen = contentModel.showWhen;
         this.actionButtons = contentModel.actionButtons;
-        this.messages = contentModel.messages;
+        this.recipient = contentModel.recipient;
         this.payload = contentModel.payload;
         this.largeIcon = contentModel.largeIcon;
         this.bigPicture = contentModel.bigPicture;

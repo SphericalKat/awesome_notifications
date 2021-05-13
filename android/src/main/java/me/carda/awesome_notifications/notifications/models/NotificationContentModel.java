@@ -30,7 +30,7 @@ public class NotificationContentModel extends Model {
     public String summary;
     public Boolean showWhen;
     public List<Object> actionButtons;
-    public List<Object> messages;
+    public String recipient;
     public Map<String, String> payload;
     public Boolean playSound;
     public String icon;
@@ -110,7 +110,7 @@ public class NotificationContentModel extends Model {
 
         actionButtons = getValueOrDefault(arguments, Definitions.NOTIFICATION_ACTION_BUTTONS, List.class);
 
-        messages = getValueOrDefault(arguments, Definitions.NOTIFICATION_MESSAGES, List.class);
+        recipient = getValueOrDefault(arguments, Definitions.NOTIFICATION_RECIPIENT, String.class);
 
         payload = getValueOrDefault(arguments, Definitions.NOTIFICATION_PAYLOAD, Map.class);
 
@@ -160,8 +160,8 @@ public class NotificationContentModel extends Model {
         if(this.actionButtons != null)
             returnedObject.put(Definitions.NOTIFICATION_ACTION_BUTTONS, this.actionButtons);
 
-        if (this.messages != null)
-            returnedObject.put(Definitions.NOTIFICATION_MESSAGES, this.messages);
+        if (this.recipient != null)
+            returnedObject.put(Definitions.NOTIFICATION_MESSAGES, this.recipient);
 
         if(this.autoCancel != null)
             returnedObject.put(Definitions.NOTIFICATION_AUTO_CANCEL, this.autoCancel);
@@ -194,7 +194,7 @@ public class NotificationContentModel extends Model {
 
         if(this.privacy != null)
             returnedObject.put(Definitions.NOTIFICATION_PRIVACY,
-                    this.privacy != null ? this.privacy.toString() : null);
+                    this.privacy.toString());
 
         if(this.privateMessage != null)
             returnedObject.put(Definitions.NOTIFICATION_PRIVATE_MESSAGE, this.privateMessage);
