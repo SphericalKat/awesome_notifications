@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:typed_data';
 import 'dart:convert';
+import 'package:awesome_notifications/src/models/notification_message.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
@@ -237,6 +238,7 @@ class AwesomeNotifications {
     required NotificationContent content,
     NotificationSchedule? schedule,
     List<NotificationActionButton>? actionButtons,
+    List<NotificationMessage>? messages,
   }) async {
     _validateId(content.id!);
 
@@ -246,7 +248,7 @@ class AwesomeNotifications {
           PushNotification(
                   content: content,
                   schedule: schedule,
-                  actionButtons: actionButtons)
+                  actionButtons: actionButtons, messages: messages)
               .toMap());
 
       return wasCreated;

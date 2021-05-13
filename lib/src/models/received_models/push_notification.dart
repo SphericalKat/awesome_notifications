@@ -4,6 +4,7 @@ import 'package:awesome_notifications/src/models/notification_button.dart';
 import 'package:awesome_notifications/src/models/notification_calendar.dart';
 import 'package:awesome_notifications/src/models/notification_content.dart';
 import 'package:awesome_notifications/src/models/notification_interval.dart';
+import 'package:awesome_notifications/src/models/notification_message.dart';
 import 'package:awesome_notifications/src/models/notification_schedule.dart';
 
 /// Reference Model to create a new notification
@@ -12,8 +13,10 @@ class PushNotification extends Model {
   NotificationContent? content;
   NotificationSchedule? schedule;
   List<NotificationActionButton>? actionButtons;
+  List<NotificationMessage>? messages;
 
-  PushNotification({this.content, this.schedule, this.actionButtons});
+  PushNotification(
+      {this.content, this.schedule, this.actionButtons, this.messages});
 
   /// Imports data from a serializable object
   PushNotification? fromMap(Map<String, dynamic> mapData) {
@@ -57,6 +60,23 @@ class PushNotification extends Model {
         }
         assert(actionButtons!.isNotEmpty);
       }
+
+      if (mapData.containsKey(PUSH_NOTIFICATION_MESSAGES)) {
+        messages = [];
+        List<dynamic> messagesData =
+            List<dynamic>.from(mapData[PUSH_NOTIFICATION_MESSAGES]);
+
+        for (dynamic messageData in messagesData) {
+          Map<String, dynamic> messageDataMap =
+              Map<String, dynamic>.from(messageData);
+
+          NotificationMessage message = NotificationMessage()
+              .fromMap(messageDataMap) as NotificationMessage;
+          message.validate();
+          messages!.add(message);
+        }
+        assert(messages!.isNotEmpty);
+      }
     } catch (e) {
       return null;
     }
@@ -73,10 +93,20 @@ class PushNotification extends Model {
         if (data.isNotEmpty) actionButtonsData.add(data);
       }
     }
+
+    List<Map<String, dynamic>> messagesData = [];
+    if (messages != null) {
+      for (NotificationMessage message in messages!) {
+        Map<String, dynamic> data = message.toMap();
+        if (data.isNotEmpty) messagesData.add(data);
+      }
+    }
+    
     return {
       'content': content?.toMap() ?? {},
       'schedule': schedule?.toMap() ?? {},
-      'actionButtons': actionButtonsData.isEmpty ? null : actionButtonsData
+      'actionButtons': actionButtonsData.isEmpty ? null : actionButtonsData,
+      'messages': messagesData.isEmpty ? null : messages
     };
   }
 
