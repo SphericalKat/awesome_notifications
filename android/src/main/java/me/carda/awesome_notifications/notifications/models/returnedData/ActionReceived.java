@@ -25,9 +25,10 @@ public class ActionReceived extends NotificationContentModel {
     public String dismissedDate;
     public String mediaAction;
 
-    public ActionReceived(){}
+    public ActionReceived() {
+    }
 
-    public ActionReceived(NotificationContentModel contentModel){
+    public ActionReceived(NotificationContentModel contentModel) {
 
         this.id = contentModel.id;
         this.channelKey = contentModel.channelKey;
@@ -36,6 +37,7 @@ public class ActionReceived extends NotificationContentModel {
         this.summary = contentModel.summary;
         this.showWhen = contentModel.showWhen;
         this.actionButtons = contentModel.actionButtons;
+        this.messages = contentModel.messages;
         this.payload = contentModel.payload;
         this.largeIcon = contentModel.largeIcon;
         this.bigPicture = contentModel.bigPicture;
@@ -60,7 +62,7 @@ public class ActionReceived extends NotificationContentModel {
     }
 
     @Override
-    public Map<String, Object> toMap(){
+    public Map<String, Object> toMap() {
         Map<String, Object> returnedObject = super.toMap();
 
         returnedObject.put(Definitions.NOTIFICATION_ACTION_LIFECYCLE,
@@ -82,11 +84,11 @@ public class ActionReceived extends NotificationContentModel {
     public ActionReceived fromMap(Map<String, Object> arguments) {
         super.fromMap(arguments);
 
-        actionKey     = MapUtils.extractValue(arguments, Definitions.NOTIFICATION_ACTION_KEY, String.class).orNull();
-        actionInput   = MapUtils.extractValue(arguments, Definitions.NOTIFICATION_ACTION_INPUT, String.class).orNull();
-        actionDate    = MapUtils.extractValue(arguments, Definitions.NOTIFICATION_ACTION_DATE, String.class).orNull();
+        actionKey = MapUtils.extractValue(arguments, Definitions.NOTIFICATION_ACTION_KEY, String.class).orNull();
+        actionInput = MapUtils.extractValue(arguments, Definitions.NOTIFICATION_ACTION_INPUT, String.class).orNull();
+        actionDate = MapUtils.extractValue(arguments, Definitions.NOTIFICATION_ACTION_DATE, String.class).orNull();
         dismissedDate = MapUtils.extractValue(arguments, Definitions.NOTIFICATION_DISMISSED_DATE, String.class).orNull();
-        mediaAction   = MapUtils.extractValue(arguments, Definitions.NOTIFICATION_MEDIA_ACTION, String.class).orNull();
+        mediaAction = MapUtils.extractValue(arguments, Definitions.NOTIFICATION_MEDIA_ACTION, String.class).orNull();
 
         actionLifeCycle = getEnumValueOrDefault(arguments, Definitions.NOTIFICATION_ACTION_LIFECYCLE,
                 NotificationLifeCycle.class, NotificationLifeCycle.values());
@@ -102,7 +104,7 @@ public class ActionReceived extends NotificationContentModel {
     }
 
     @Override
-    public ActionReceived fromJson(String json){
+    public ActionReceived fromJson(String json) {
         return (ActionReceived) super.templateFromJson(json);
     }
 }

@@ -26,6 +26,7 @@ public class NotificationReceived extends NotificationContentModel {
         this.summary = contentModel.summary;
         this.showWhen = contentModel.showWhen;
         this.actionButtons = contentModel.actionButtons;
+        this.messages = contentModel.messages;
         this.payload = contentModel.payload;
         this.largeIcon = contentModel.largeIcon;
         this.bigPicture = contentModel.bigPicture;

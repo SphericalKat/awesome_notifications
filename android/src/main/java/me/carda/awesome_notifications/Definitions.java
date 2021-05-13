@@ -127,6 +127,7 @@ public interface Definitions {
     String NOTIFICATION_JSON = "notificationJson";
 
     String NOTIFICATION_ACTION_BUTTONS = "actionButtons";
+    String NOTIFICATION_MESSAGES = "messages";
     String NOTIFICATION_BUTTON_KEY = "key";
     String NOTIFICATION_BUTTON_ICON = "icon";
     String NOTIFICATION_BUTTON_LABEL = "label";

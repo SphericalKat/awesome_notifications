@@ -30,6 +30,7 @@ public class NotificationContentModel extends Model {
     public String summary;
     public Boolean showWhen;
     public List<Object> actionButtons;
+    public List<Object> messages;
     public Map<String, String> payload;
     public Boolean playSound;
     public String icon;
@@ -109,6 +110,8 @@ public class NotificationContentModel extends Model {
 
         actionButtons = getValueOrDefault(arguments, Definitions.NOTIFICATION_ACTION_BUTTONS, List.class);
 
+        messages = getValueOrDefault(arguments, Definitions.NOTIFICATION_MESSAGES, List.class);
+
         payload = getValueOrDefault(arguments, Definitions.NOTIFICATION_PAYLOAD, Map.class);
 
         autoCancel = getValueOrDefault(arguments, Definitions.NOTIFICATION_AUTO_CANCEL, Boolean.class);
@@ -156,6 +159,9 @@ public class NotificationContentModel extends Model {
 
         if(this.actionButtons != null)
             returnedObject.put(Definitions.NOTIFICATION_ACTION_BUTTONS, this.actionButtons);
+
+        if (this.messages != null)
+            returnedObject.put(Definitions.NOTIFICATION_MESSAGES, this.messages);
 
         if(this.autoCancel != null)
             returnedObject.put(Definitions.NOTIFICATION_AUTO_CANCEL, this.autoCancel);
