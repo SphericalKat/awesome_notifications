@@ -101,12 +101,12 @@ class PushNotification extends Model {
         if (data.isNotEmpty) messagesData.add(data);
       }
     }
-    
+
     return {
       'content': content?.toMap() ?? {},
       'schedule': schedule?.toMap() ?? {},
       'actionButtons': actionButtonsData.isEmpty ? null : actionButtonsData,
-      'messages': messagesData.isEmpty ? null : messages
+      'messages': messagesData.isEmpty ? null : messagesData,
     };
   }
 

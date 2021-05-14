@@ -27,6 +27,10 @@ class NotificationContent extends BaseNotificationContent {
 
   bool? locked;
 
+  /// The recipient of a messaging notification
+  /// Should be null in case the layout is not messaging
+  String? recipient;
+
   NotificationContent(
       {int? id,
       String? channelKey,
@@ -42,6 +46,7 @@ class NotificationContent extends BaseNotificationContent {
       Color? color,
       Color? backgroundColor,
       Map<String, String>? payload,
+      this.recipient,
       this.notificationLayout,
       this.hideLargeIconOnExpand,
       this.locked,
@@ -134,6 +139,7 @@ class NotificationContent extends BaseNotificationContent {
         'displayOnBackground': displayOnBackground,
         'createdDate': createdDate,
         'displayedDate': displayedDate,
+        'recipient': recipient,
       });
     return dataMap;
   }

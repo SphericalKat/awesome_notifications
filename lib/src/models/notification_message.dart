@@ -6,8 +6,7 @@ class NotificationMessage extends Model {
   String? body;
   String? icon;
 
-  NotificationMessage(
-      {this.body, this.icon, this.name});
+  NotificationMessage({this.body, this.icon, this.name});
 
   @override
   NotificationMessage? fromMap(Map<String, dynamic> dataMap) {
@@ -21,6 +20,11 @@ class NotificationMessage extends Model {
   @override
   Map<String, dynamic> toMap() {
     return {'name': name, 'icon': icon, 'body': body};
+  }
+
+  @override
+  String toString() {
+    return toMap().toString();
   }
 
   @override

@@ -243,13 +243,16 @@ class AwesomeNotifications {
     _validateId(content.id!);
 
     try {
+      final pushNotification = PushNotification(
+              content: content,
+              schedule: schedule,
+              actionButtons: actionButtons,
+              messages: messages)
+          .toMap();
+      print(pushNotification);
+
       final bool wasCreated = await _channel.invokeMethod(
-          CHANNEL_METHOD_CREATE_NOTIFICATION,
-          PushNotification(
-                  content: content,
-                  schedule: schedule,
-                  actionButtons: actionButtons, messages: messages)
-              .toMap());
+          CHANNEL_METHOD_CREATE_NOTIFICATION, pushNotification);
 
       return wasCreated;
     } on PlatformException catch (error) {

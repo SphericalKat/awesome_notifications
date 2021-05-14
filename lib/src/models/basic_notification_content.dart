@@ -83,7 +83,7 @@ class BaseNotificationContent extends Model {
       'autoCancel': autoCancel,
       'privacy': AssertUtils.toSimpleEnumString(privacy),
       'color': color?.value,
-      'backgroundColor': backgroundColor?.value
+      'backgroundColor': backgroundColor?.value,
     };
   }
 
