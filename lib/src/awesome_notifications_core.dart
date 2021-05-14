@@ -249,8 +249,6 @@ class AwesomeNotifications {
               actionButtons: actionButtons,
               messages: messages)
           .toMap();
-      print(pushNotification);
-
       final bool wasCreated = await _channel.invokeMethod(
           CHANNEL_METHOD_CREATE_NOTIFICATION, pushNotification);
 
